@@ -12,6 +12,10 @@ body {
   font-size: 1.6rem; 
 }
 
+.container {
+  display: grid;
+}
+
 .add-button {
   margin: 2rem;
 
@@ -19,10 +23,20 @@ body {
   place-items: center;
 }
 
+.add-button > button {
+  padding: 2rem 3rem;
+  height: auto;
+
+  font-size: 2rem;
+
+  display: grid;
+  place-items: center;
+}
+
 .book-list {
   display: grid;
-  /* grid-template-columns:  repeat(auto-fill, minmax(30rem, min-content)); */
-  grid-template-columns:  repeat(auto-fill, minmax(min-content, 33%));
+  justify-content: center;
+  grid-template-columns:  repeat(auto-fill, minmax(min-content, 30%));
   gap: 2rem;
 }
 
