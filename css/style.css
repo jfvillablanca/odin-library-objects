@@ -21,7 +21,9 @@ body {
 
 .book-list {
   display: grid;
-  grid-template-columns:  repeat(auto-fill, minmax(30rem, min-content));
+  /* grid-template-columns:  repeat(auto-fill, minmax(30rem, min-content)); */
+  grid-template-columns:  repeat(auto-fill, minmax(min-content, 33%));
+  gap: 2rem;
 }
 
 .book {
