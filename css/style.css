@@ -13,14 +13,26 @@ body {
 }
 
 .add-button {
+  margin: 2rem;
+
   display: grid;
   place-items: center;
 }
 
 .book-list {
   display: grid;
+  grid-template-columns:  repeat(auto-fill, minmax(30rem, min-content));
 }
 
 .book {
   border: 1px solid black;
+  border-radius: 2rem;
+  padding: 1rem;
+
+  display: grid;
+}
+
+.book > h1 {
+  font-size: 3rem;
+  font-weight: bold;
 }
