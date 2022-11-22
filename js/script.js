@@ -10,6 +10,7 @@ class Book {
 
 // Filler Data
 
+myLibrary.push(new Book("Republic", "Plato", "375 BC"));
 myLibrary.push(new Book("A Discipline of Programming", "Edsger W. Dijkstra", "1976"));
 myLibrary.push(new Book("Das Kapital, Volume I", "Karl Marx", "1867"));
 
