@@ -50,6 +50,17 @@ myLibrary.push(new Book("Republic", "Plato", "375 BC", false));
 myLibrary.push(new Book("A Discipline of Programming", "Edsger W. Dijkstra", "1976", true));
 myLibrary.push(new Book("Das Kapital, Volume I", "Karl Marx", "1867", false));
 
+// DOM Stuff
+
+const bookList = document.querySelector(".book-list");
+const addABookButton = document.querySelector(".add-button");
+addABookButton.addEventListener("click", () => {
+  const addBookPopupWindow = document.querySelector(".add-book-popup");
+  console.log(addBookPopupWindow);
+  addBookPopupWindow.classList.add("visible");
+  console.log(addBookPopupWindow);
+});
+
 
 for (const i in myLibrary) {
   bookList.appendChild(
