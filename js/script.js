@@ -1,12 +1,12 @@
 const myLibrary = [];
 
 class Book {
-  constructor(title, author, published) {
+  constructor(title, author, published, haveRead) {
     this.title = title;
     this.author = author;
     this.published = published;
+    this.haveRead = haveRead;
   }
-}
 
 // Filler Data
 
@@ -44,7 +44,18 @@ const newBook = function(title, author, published) {
   book.appendChild(bookTitleH1);
   book.appendChild(bookAttrib);
 
-  return book;
+myLibrary.push(new Book("Republic", "Plato", "375 BC", false));
+myLibrary.push(new Book("A Discipline of Programming", "Edsger W. Dijkstra", "1976", true));
+myLibrary.push(new Book("Das Kapital, Volume I", "Karl Marx", "1867", false));
+
+
+for (const i in myLibrary) {
+  bookList.appendChild(
+    Book.createNewBook(
+      myLibrary[i].title,
+      myLibrary[i].author,
+      myLibrary[i].published,
+      myLibrary[i].haveRead
+    )
+  );
 }
-
-
