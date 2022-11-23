@@ -75,7 +75,6 @@ body {
   grid-template-columns: 1fr 3fr;
 }
 
-
 .add-book-popup > form > label {
   margin-right: 1rem;
   margin-bottom: 0;
