@@ -8,7 +8,7 @@ class Book {
     this.haveRead = haveRead;
   }
 
-  static createNewBook(title, author, published, haveRead) {
+  static insertNewBook(title, author, published, haveRead) {
     // return newBook(this.title, this.author, this.published, this.haveRead);
     const book = document.createElement("div");
     book.classList.add("book");
@@ -53,7 +53,7 @@ myLibrary.push(new Book("Das Kapital, Volume I", "Karl Marx", "1867", false));
 
 for (const i in myLibrary) {
   bookList.appendChild(
-    Book.createNewBook(
+    Book.insertNewBook(
       myLibrary[i].title,
       myLibrary[i].author,
       myLibrary[i].published,
