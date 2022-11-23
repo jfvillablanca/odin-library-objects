@@ -48,7 +48,23 @@ body {
   display: grid;
 }
 
-.book > h1 {
+.book > h1,
+.add-book-popup > h1 {
   font-size: 3rem;
   font-weight: bold;
+}
+
+.add-book-popup {
+  border: 1px solid black;
+  border-radius: 2rem;
+  padding: 1rem;
+
+  /* height: 30rem; */
+  /* width: 40rem; */
+}
+
+.add-book-popup > form {
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);  
+  grid-template-columns: 1fr 4fr;
 }
