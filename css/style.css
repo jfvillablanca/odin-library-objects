@@ -14,6 +14,8 @@ body {
 
 .container {
   display: grid;
+
+  position: relative;
 }
 
 .add-button {
@@ -55,12 +57,23 @@ body {
 }
 
 .add-book-popup {
+  visibility: hidden;
+  background-color: white;
   border: 1px solid rgb(187, 187, 187);
   border-radius: 0.7rem;
   padding: 1rem;
 
   max-height: 30rem;
   max-width: 50rem;
+
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  z-index: 1;
+}
+
+.add-book-popup.visible {
+  visibility: visible;
 }
 
 .add-book-popup > h1 {
