@@ -1,4 +1,4 @@
-let myLibrary = [];
+const myLibrary = [];
 
 class Book {
   constructor(title, author, published, haveRead) {
@@ -52,7 +52,7 @@ class Book {
   static deleteBookFromLibrary(library, libraryIndex) {
     library.splice(libraryIndex, 1);
     console.log(library);
-    return library;
+    return;
   }
 }
 
@@ -103,6 +103,6 @@ removeBookButtons.forEach((removeBookButton) => {
 
     const bookToBeRemovedFromDOM = document.querySelector(`[data-index="${dataIndex}"]`);
     bookList.removeChild(bookToBeRemovedFromDOM);                   // Removes book card from DOM
-    myLibrary = Book.deleteBookFromLibrary(myLibrary, dataIndex);   // Removes book object from Array
+    Book.deleteBookFromLibrary(myLibrary, dataIndex);               // Removes book object from Array
   })
 })
