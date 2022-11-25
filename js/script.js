@@ -1,4 +1,4 @@
-const myLibrary = [];
+let myLibrary = [];
 
 class Book {
   constructor(title, author, published, haveRead) {
@@ -8,10 +8,11 @@ class Book {
     this.haveRead = haveRead;
   }
 
-  static insertNewBook(title, author, published, haveRead) {
+  static insertNewBook(title, author, published, haveRead, libraryIndex) {
     // return newBook(this.title, this.author, this.published, this.haveRead);
     const book = document.createElement("div");
     book.classList.add("book");
+    book.setAttribute("data-index", libraryIndex);
 
     const bookTitleH1 = document.createElement("h1");
     bookTitleH1.classList.add("book-title");
@@ -35,6 +36,7 @@ class Book {
 
     const removeBook = document.createElement("button");
     removeBook.textContent = "Remove Book";
+    removeBook.setAttribute("data-index", libraryIndex);
 
     bookAttrib.appendChild(bookAuthor);
     bookAttrib.appendChild(bookPublished);
@@ -45,6 +47,12 @@ class Book {
     book.appendChild(removeBook);
 
     return book;
+  }
+
+  static deleteBookFromLibrary(library, libraryIndex) {
+    library.splice(libraryIndex, 1);
+    console.log(library);
+    return library;
   }
 }
 
@@ -96,7 +104,22 @@ for (const i in myLibrary) {
       myLibrary[i].title,
       myLibrary[i].author,
       myLibrary[i].published,
-      myLibrary[i].haveRead
+      myLibrary[i].haveRead,
+      i,
     )
   );
 }
+
+const removeBookButtons = document.querySelectorAll(".book > button");
+
+removeBookButtons.forEach((removeBookButton) => {
+  removeBookButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    const dataIndex = +e.target.attributes[0].value; 
+    console.log(dataIndex);
+
+    const bookToBeRemovedFromDOM = document.querySelector(`[data-index="${dataIndex}"]`);
+    bookList.removeChild(bookToBeRemovedFromDOM);                   // Removes book card from DOM
+    myLibrary = Book.deleteBookFromLibrary(myLibrary, dataIndex);   // Removes book object from Array
+  })
+})
