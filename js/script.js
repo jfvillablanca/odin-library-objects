@@ -8,7 +8,7 @@ class Book {
     this.haveRead = haveRead;
   }
 
-  static insertNewBook(title, author, published, haveRead, libraryIndex) {
+  static insertNewBookToDOM(title, author, published, haveRead, libraryIndex) {
     // return newBook(this.title, this.author, this.published, this.haveRead);
     const book = document.createElement("div");
     book.classList.add("book");
@@ -62,18 +62,19 @@ myLibrary.push(new Book("Republic", "Plato", "375 BC", false));
 myLibrary.push(new Book("A Discipline of Programming", "Edsger W. Dijkstra", "1976", true));
 myLibrary.push(new Book("Das Kapital, Volume I", "Karl Marx", "1867", false));
 
-// DOM Stuff
-
+// DOM Generation
 const bookList = document.querySelector(".book-list");
 const addABookButton = document.querySelector(".add-button > button");
 const addBookPopupWindow = document.querySelector(".add-book-popup");
 
+// Add a new Book
 addABookButton.addEventListener("click", (e) => {
   e.preventDefault();
   addBookPopupWindow.classList.toggle("visible");
   if (addBookPopupWindow.classList.contains("visible")) {
     addABookButton.classList.add("popup-active");
     addABookButton.textContent = "Close window";
+    insertNewBookToLibAndDOM(myLibrary);
   }
   else {
     addABookButton.classList.remove("popup-active");
@@ -81,9 +82,36 @@ addABookButton.addEventListener("click", (e) => {
   }
 });
 
+// Insert new Book to library and DOM
+
+const insertNewBookToLibAndDOM = function(library) {
+  const addNewBookEntry = document.querySelector(".add-book-popup button")
+  const newBookTitle = document.getElementById("book-title").value;
+  const newBookAuthor = document.getElementById("book-author").value;
+  const newBookPublished = document.getElementById("book-published").value;
+  const newBookHaveRead = document.getElementById("book-have-read").checked;
+
+  addNewBookEntry.addEventListener("click", (e) => {
+    e.preventDefault();
+    
+    library.push(new Book(newBookTitle, newBookAuthor, newBookPublished, newBookHaveRead));
+    console.log(library);
+    bookList.appendChild(
+      Book.insertNewBookToDOM(
+        library[library.length-1].title,
+        library[library.length-1].author,
+        library[library.length-1].published,
+        library[library.length-1].haveRead,
+        library.length-1,
+      )
+    )
+  })
+} 
+
+// Insert filler book data to library
 for (const i in myLibrary) {
   bookList.appendChild(
-    Book.insertNewBook(
+    Book.insertNewBookToDOM(
       myLibrary[i].title,
       myLibrary[i].author,
       myLibrary[i].published,
@@ -93,6 +121,7 @@ for (const i in myLibrary) {
   );
 }
 
+// Remove book from library (array and DOM)
 const removeBookButtons = document.querySelectorAll(".book > button");
 
 removeBookButtons.forEach((removeBookButton) => {
