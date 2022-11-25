@@ -52,15 +52,31 @@ myLibrary.push(new Book("Das Kapital, Volume I", "Karl Marx", "1867", false));
 
 // DOM Stuff
 
+const allNonAddButton = document.querySelectorAll(".container :not(.add-book-popup *, add-button > button)");
+// const allNonAddButton = document.querySelectorAll(
+//   ".container div:not([class='add-book-popup'])"
+// );
 const bookList = document.querySelector(".book-list");
-const addABookButton = document.querySelector(".add-button");
-addABookButton.addEventListener("click", () => {
-  const addBookPopupWindow = document.querySelector(".add-book-popup");
-  console.log(addBookPopupWindow);
-  addBookPopupWindow.classList.add("visible");
-  console.log(addBookPopupWindow);
-});
+const addABookButton = document.querySelector(".add-button > button");
+const addBookPopupWindow = document.querySelector(".add-book-popup");
 
+if (addBookPopupWindow.classList.contains("visible")) {
+  allNonAddButton.forEach((element) => {
+    element.addEventListener("click", (e) => {
+      e.stopPropagation();
+      console.log(element);
+
+      addBookPopupWindow.classList.remove("visible");
+      console.log(`close`);
+    });
+  });
+}
+
+addABookButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  addBookPopupWindow.classList.toggle("visible");
+  console.log(`open`);
+});
 
 for (const i in myLibrary) {
   bookList.appendChild(
