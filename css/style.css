@@ -62,6 +62,13 @@ body {
   font-weight: bold;
 }
 
+.book > button {
+  background-color: #D04C4C;
+  color: white;
+
+  font-size: 1.3rem;
+}
+
 .add-book-popup {
   visibility: hidden;
   background-color: white;
