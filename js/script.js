@@ -33,12 +33,16 @@ class Book {
       ? (bookRead.textContent = "I have read this book already.")
       : (bookRead.textContent = "I have NOT read this book yet.");
 
+    const removeBook = document.createElement("button");
+    removeBook.textContent = "Remove Book";
+
     bookAttrib.appendChild(bookAuthor);
     bookAttrib.appendChild(bookPublished);
     bookAttrib.appendChild(bookRead);
 
     book.appendChild(bookTitleH1);
     book.appendChild(bookAttrib);
+    book.appendChild(removeBook);
 
     return book;
   }
