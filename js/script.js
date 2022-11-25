@@ -9,7 +9,6 @@ class Book {
   }
 
   static insertNewBookToDOM(title, author, published, haveRead, libraryIndex) {
-    // return newBook(this.title, this.author, this.published, this.haveRead);
     const book = document.createElement("div");
     book.classList.add("book");
     book.setAttribute("data-index", libraryIndex);
@@ -53,14 +52,11 @@ class Book {
     libraryArray.splice(libraryIndex, 1);
     refreshDOMBookList(libraryArray, libraryDOM);
     addEventListenersToRemoveBookButtons();
-    // console.log("After splice");
-    // console.table(libraryArray); console.table(libraryDOM);
     return;
   }
 }
 
 // Filler Data
-
 myLibrary.push(new Book("Republic", "Plato", "375 BC", false));
 myLibrary.push(new Book("A Discipline of Programming", "Edsger W. Dijkstra", "1976", true));
 myLibrary.push(new Book("Das Kapital, Volume I", "Karl Marx", "1867", false));
@@ -87,7 +83,6 @@ addABookButton.addEventListener("click", (e) => {
 });
 
 // Insert new Book to library and DOM
-
 const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
   const addNewBookEntry = document.querySelector(".add-book-popup button")
   const newBookTitle = document.getElementById("book-title").value;
@@ -99,18 +94,8 @@ const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
     e.preventDefault();
     
     libraryArray.push(new Book(newBookTitle, newBookAuthor, newBookPublished, newBookHaveRead));
-    // console.log(library);
     refreshDOMBookList(libraryArray, libraryDOM)
     addEventListenersToRemoveBookButtons();
-    // bookList.appendChild(
-    //   Book.insertNewBookToDOM(
-    //     libraryArray[libraryArray.length-1].title,
-    //     libraryArray[libraryArray.length-1].author,
-    //     libraryArray[libraryArray.length-1].published,
-    //     libraryArray[libraryArray.length-1].haveRead,
-    //     libraryArray.length-1,
-    //   )
-    // )
   })
 } 
 
@@ -130,37 +115,6 @@ const refreshDOMBookList = function(libraryArray, libraryDOM) {
   }
 }
 
-refreshDOMBookList(myLibrary, bookList);
-
-// for (const i in myLibrary) {
-//   bookList.appendChild(
-//     Book.insertNewBookToDOM(
-//       myLibrary[i].title,
-//       myLibrary[i].author,
-//       myLibrary[i].published,
-//       myLibrary[i].haveRead,
-//       i,
-//     )
-//   );
-// }
-
-// // Remove book from library (array and DOM)
-// buttonsRemoveBook.forEach((buttonRemoveThisBook) => {
-//   buttonRemoveThisBook.setAttribute("data-listener", true);
-//   console.log(buttonRemoveThisBook);
-//   buttonRemoveThisBook.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     const dataIndex = +e.target.attributes[0].value; 
-//
-//     const bookToBeRemovedFromDOM = document.querySelector(`[data-index="${dataIndex}"]`);
-//     // console.log(e.target);
-//     bookList.removeChild(bookToBeRemovedFromDOM);                   // Removes book card from DOM
-//     // console.table(myLibrary); console.table(bookList);
-//     Book.deleteBookFromLibrary(myLibrary, bookList, dataIndex);     // Removes book object from Array
-//   })
-// })
-
-
 function removeAllChildNodes(parentNode) {
   while(parentNode.firstChild) {
     parentNode.removeChild(parentNode.firstChild);
@@ -169,6 +123,7 @@ function removeAllChildNodes(parentNode) {
 
 const addEventListenersToRemoveBookButtons = function() {
   buttonsRemoveBook = document.querySelectorAll(".book > button");
+ 
   // Remove book from library (array and DOM)
   buttonsRemoveBook.forEach((buttonRemoveThisBook) => {
     buttonRemoveThisBook.setAttribute("data-listener", true);
@@ -185,4 +140,6 @@ const addEventListenersToRemoveBookButtons = function() {
     })
   })
 };
+
+refreshDOMBookList(myLibrary, bookList);
 addEventListenersToRemoveBookButtons();
