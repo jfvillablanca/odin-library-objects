@@ -54,12 +54,19 @@ body {
   padding: 1rem;
 
   display: grid;
+  grid-template-rows: 5rem auto auto;
 }
 
 .book > h1,
 .add-book-popup > h1 {
-  font-size: 3rem;
+  font-size: 2.4rem;
   font-weight: bold;
+}
+
+.book > h1 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .book > button {
