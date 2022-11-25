@@ -68,19 +68,21 @@ const addBookPopupWindow = document.querySelector(".add-book-popup");
 let buttonsRemoveBook = document.querySelectorAll(".book > button");
 
 // Add a new Book
-addABookButton.addEventListener("click", (e) => {
-  e.preventDefault();
-  addBookPopupWindow.classList.toggle("visible");
-  if (addBookPopupWindow.classList.contains("visible")) {
-    addABookButton.classList.add("popup-active");
-    addABookButton.textContent = "Close window";
-    insertNewBookToArrayAndDOM(myLibrary, bookList);
-  }
-  else {
-    addABookButton.classList.remove("popup-active");
-    addABookButton.textContent = "Add a book";
-  }
-});
+const addEventListenersToAddBookButton = function() {
+  addABookButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    addBookPopupWindow.classList.toggle("visible");
+    if (addBookPopupWindow.classList.contains("visible")) {
+      addABookButton.classList.add("popup-active");
+      addABookButton.textContent = "Close window";
+      insertNewBookToArrayAndDOM(myLibrary, bookList);
+    }
+    else {
+      addABookButton.classList.remove("popup-active");
+      addABookButton.textContent = "Add a book";
+    }
+  });
+}
 
 // Insert new Book to library and DOM
 const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
@@ -99,7 +101,7 @@ const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
   })
 } 
 
-// Insert filler book data to library
+// Refresh DOM book list
 const refreshDOMBookList = function(libraryArray, libraryDOM) {
   removeAllChildNodes(libraryDOM);
   for (const i in libraryArray) {
@@ -141,5 +143,6 @@ const addEventListenersToRemoveBookButtons = function() {
   })
 };
 
+addEventListenersToAddBookButton();
 refreshDOMBookList(myLibrary, bookList);
 addEventListenersToRemoveBookButtons();
