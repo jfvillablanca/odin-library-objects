@@ -28,11 +28,17 @@ body {
 .add-button > button {
   padding: 2rem 3rem;
   height: auto;
+  min-width: 25rem;
 
   font-size: 2rem;
 
   display: grid;
   place-items: center;
+}
+
+.add-button > button.popup-active {
+  background-color: #D04C4C;
+  color: white;
 }
 
 .book-list {

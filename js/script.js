@@ -76,6 +76,14 @@ const addBookPopupWindow = document.querySelector(".add-book-popup");
 addABookButton.addEventListener("click", (e) => {
   e.preventDefault();
   addBookPopupWindow.classList.toggle("visible");
+  if (addBookPopupWindow.classList.contains("visible")) {
+    addABookButton.classList.add("popup-active");
+    addABookButton.textContent = "Close window";
+  }
+  else {
+    addABookButton.classList.remove("popup-active");
+    addABookButton.textContent = "Add a book";
+  }
 });
 
 for (const i in myLibrary) {
