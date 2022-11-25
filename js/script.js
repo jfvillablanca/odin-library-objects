@@ -109,29 +109,52 @@ const insertNewBookToLibAndDOM = function(library) {
 } 
 
 // Insert filler book data to library
-for (const i in myLibrary) {
-  bookList.appendChild(
-    Book.insertNewBookToDOM(
-      myLibrary[i].title,
-      myLibrary[i].author,
-      myLibrary[i].published,
-      myLibrary[i].haveRead,
-      i,
-    )
-  );
+const refreshDOMBookList = function(libraryArray, libraryDOM) {
+  removeAllChildNodes(libraryDOM);
+  for (const i in libraryArray) {
+    bookList.appendChild(
+      Book.insertNewBookToDOM(
+        libraryArray[i].title,
+        libraryArray[i].author,
+        libraryArray[i].published,
+        libraryArray[i].haveRead,
+        i,
+      )
+    );
+  buttonsRemoveBook = document.querySelectorAll(".book > button");
+  }
 }
 
-// Remove book from library (array and DOM)
-const removeBookButtons = document.querySelectorAll(".book > button");
+refreshDOMBookList(myLibrary, bookList);
+
+// for (const i in myLibrary) {
+//   bookList.appendChild(
+//     Book.insertNewBookToDOM(
+//       myLibrary[i].title,
+//       myLibrary[i].author,
+//       myLibrary[i].published,
+//       myLibrary[i].haveRead,
+//       i,
+//     )
+//   );
+// }
 
 removeBookButtons.forEach((removeBookButton) => {
   removeBookButton.addEventListener("click", (e) => {
     e.preventDefault();
     const dataIndex = +e.target.attributes[0].value; 
-    console.log(dataIndex);
 
     const bookToBeRemovedFromDOM = document.querySelector(`[data-index="${dataIndex}"]`);
+    // console.log(e.target);
     bookList.removeChild(bookToBeRemovedFromDOM);                   // Removes book card from DOM
     Book.deleteBookFromLibrary(myLibrary, dataIndex);               // Removes book object from Array
   })
 })
+
+
+function removeAllChildNodes(parentNode) {
+  while(parentNode.firstChild) {
+    parentNode.removeChild(parentNode.firstChild);
+  }
+}
+
