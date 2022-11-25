@@ -129,15 +129,12 @@ const addEventListenersToRemoveBookButtons = function() {
   // Remove book from library (array and DOM)
   buttonsRemoveBook.forEach((buttonRemoveThisBook) => {
     buttonRemoveThisBook.setAttribute("data-listener", true);
-    console.log(buttonRemoveThisBook);
     buttonRemoveThisBook.addEventListener("click", (e) => {
       e.preventDefault();
       const dataIndex = +e.target.attributes[0].value; 
 
       const bookToBeRemovedFromDOM = document.querySelector(`[data-index="${dataIndex}"]`);
-      // console.log(e.target);
       bookList.removeChild(bookToBeRemovedFromDOM);                   // Removes book card from DOM
-      // console.table(myLibrary); console.table(bookList);
       Book.deleteBookFromLibrary(myLibrary, bookList, dataIndex);     // Removes book object from Array
     })
   })
