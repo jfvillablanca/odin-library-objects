@@ -136,8 +136,11 @@ const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
   })
 
   // This listener will close the pop up window and submit.
-  addNewBookEntry.addEventListener("click", (e) => {
+  function closePopUp(e) {
     e.preventDefault();
+    e.target.setAttribute("data-popup-listener", true);     
+    // does not actually require to be true, as long as the attribute exists, 
+    // creation of the additional event listeners is thwarted
     
     libraryArray.push(new Book(
       newBookTitle.value, 
@@ -152,11 +155,11 @@ const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
 
     addBookPopupWindow.classList.remove("visible");
     document.getElementById("add-book-popup-form").reset();
-    // newBookTitle.reset();
-    // newBookAuthor.reset();
-    // newBookPublished.reset();
-    // toggleSwitchNewBookHaveRead.reset();
-  })
+  }
+
+  if(!addNewBookEntry.getAttribute("data-popup-listener")){
+    addNewBookEntry.addEventListener("click", closePopUp);
+  }
 } 
 
 // Refresh DOM book list
