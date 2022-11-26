@@ -113,7 +113,12 @@ const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
   const newBookTitle = document.getElementById("book-title").value;
   const newBookAuthor = document.getElementById("book-author").value;
   const newBookPublished = document.getElementById("book-published").value;
-  const newBookHaveRead = document.getElementById("book-have-read").checked;
+  // add event listener to this checkbox
+  const toggleSwitchNewBookHaveRead = document.getElementById("book-have-read");
+  let newBookHaveRead = toggleSwitchNewBookHaveRead.checked;
+  toggleSwitchNewBookHaveRead.addEventListener("click", () => {
+    newBookHaveRead = toggleSwitchNewBookHaveRead.checked;
+  })
 
   addNewBookEntry.addEventListener("click", (e) => {
     e.preventDefault();
