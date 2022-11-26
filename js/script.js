@@ -68,6 +68,7 @@ class Book {
 
   static deleteBookFromLibrary(libraryArray, libraryDOM, libraryIndex) {
     libraryArray.splice(libraryIndex, 1);
+    // HACK: This is not scalable. This deletes the whole DOM inside the '.book-list' div and re-renders it
     refreshDOMBookList(libraryArray, libraryDOM);
     addEventListenersToRemoveBookButtons(libraryArray, libraryDOM);
     addEventListenersToToggleSwitchHaveRead(libraryArray);
@@ -85,20 +86,19 @@ const bookList = document.querySelector(".book-list");
 const addABookButton = document.querySelector(".add-button > button");
 const addBookPopupWindow = document.querySelector(".add-book-popup");
 
-// Event Listeners are removed when the DOM is refreshed thus the need to reassign
-// eventListeners to the nodes again (that's why I am using 'let' instead of 'const' here)
+// NOTE: Event Listeners are removed when the DOM is refreshed thus the need to reassign eventListeners to the nodes again (that's why I am using 'let' instead of 'const' here)
 let toggleSwitchHaveRead = document.querySelectorAll(".switch > input");
 let buttonsRemoveBook = document.querySelectorAll(".book > button");
 
 // Add a new Book
-const addEventListenersToAddBookButton = function() {
+const addEventListenerToAddBookButton = function(libraryArray, libraryDOM) {
   addABookButton.addEventListener("click", (e) => {
     e.preventDefault();
     addBookPopupWindow.classList.toggle("visible");
     if (addBookPopupWindow.classList.contains("visible")) {
       addABookButton.classList.add("popup-active");
       addABookButton.textContent = "Close window";
-      insertNewBookToArrayAndDOM(myLibrary, bookList);
+      insertNewBookToArrayAndDOM(libraryArray, libraryDOM);
     }
     else {
       addABookButton.classList.remove("popup-active");
@@ -113,7 +113,6 @@ const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
   const newBookTitle = document.getElementById("book-title").value;
   const newBookAuthor = document.getElementById("book-author").value;
   const newBookPublished = document.getElementById("book-published").value;
-  // add event listener to this checkbox
   const toggleSwitchNewBookHaveRead = document.getElementById("book-have-read");
   let newBookHaveRead = toggleSwitchNewBookHaveRead.checked;
   toggleSwitchNewBookHaveRead.addEventListener("click", () => {
@@ -133,7 +132,7 @@ const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
 const refreshDOMBookList = function(libraryArray, libraryDOM) {
   removeAllChildNodes(libraryDOM);
   for (const i in libraryArray) {
-    bookList.appendChild(
+    libraryDOM.appendChild(
       Book.insertNewBookToDOM(
         libraryArray[i].title,
         libraryArray[i].author,
@@ -159,11 +158,13 @@ const addEventListenersToRemoveBookButtons = function(libraryArray, libraryDOM) 
     buttonRemoveThisBook.setAttribute("data-listener", true);
     buttonRemoveThisBook.addEventListener("click", (e) => {
       e.preventDefault();
-      const dataIndex = +e.target.attributes[0].value; 
+      const dataIndex = +e.target.attributes["data-index"].value; 
 
       const bookToBeRemovedFromDOM = document.querySelector(`.book[data-index="${dataIndex}"]`);
-      libraryDOM.removeChild(bookToBeRemovedFromDOM);                // Removes book card from DOM
-      Book.deleteBookFromLibrary(libraryArray, libraryDOM, dataIndex);  // Removes book object from Array
+      // NOTE: Removes book card from DOM
+      libraryDOM.removeChild(bookToBeRemovedFromDOM);
+      // NOTE: Removes book object from array
+      Book.deleteBookFromLibrary(libraryArray, libraryDOM, dataIndex);
     })
   })
 };
@@ -174,8 +175,6 @@ const addEventListenersToToggleSwitchHaveRead = function(libraryArray) {
   toggleSwitchHaveRead.forEach((toggleSwitch) => {
     toggleSwitch.setAttribute("data-listener", true);
     toggleSwitch.addEventListener(("click"), (e) => {
-      // const bookToToggleReadStatus = e.target.parentNode.parentNode;
-      // console.log(bookToToggleReadStatus.childNodes);
       const dataIndex = +e.target.attributes["data-index"].value; 
       const toggleStatus = e.target.checked;
       const elementToToggleReadStatus = document.querySelector(
