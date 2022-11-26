@@ -38,6 +38,8 @@ class Book {
     bookAttribList.appendChild(bookPublished);
     bookAttribList.appendChild(bookRead);
 
+    const toggleHaveReadDiv = document.createElement("div");
+
     const toggleHaveRead = document.createElement("label");
     toggleHaveRead.classList.add("switch");
 
@@ -54,13 +56,17 @@ class Book {
     toggleHaveRead.appendChild(toggleCheckbox);
     toggleHaveRead.appendChild(toggleSlider);
 
+    toggleHaveReadDiv.appendChild(document.createElement("p"));
+    toggleHaveReadDiv.firstChild.textContent = "Have you read this book?";
+    toggleHaveReadDiv.appendChild(toggleHaveRead);
+
     const removeBook = document.createElement("button");
     removeBook.textContent = "Remove Book";
     removeBook.setAttribute("data-index", libraryIndex);
 
     book.appendChild(bookTitleH1);
     book.appendChild(bookAttribList);
-    book.appendChild(toggleHaveRead);
+    book.appendChild(toggleHaveReadDiv);
     book.appendChild(removeBook);
 
     return book;
@@ -90,7 +96,7 @@ const addBookPopupWindow = document.querySelector(".add-book-popup");
 let toggleSwitchHaveRead = document.querySelectorAll(".switch > input");
 let buttonsRemoveBook = document.querySelectorAll(".book > button");
 
-// Add a new Book
+// Open new Book pop up window
 const addEventListenerToAddBookButton = function(libraryArray, libraryDOM) {
   addABookButton.addEventListener("click", (e) => {
     e.preventDefault();
@@ -182,12 +188,10 @@ const addEventListenersToToggleSwitchHaveRead = function(libraryArray) {
       );
       if (toggleStatus) {
         libraryArray[dataIndex].haveRead = true;
-        console.log(libraryArray);
         elementToToggleReadStatus.textContent = "I have read this book already.";
       }
       else {
         libraryArray[dataIndex].haveRead = false;
-        console.log(libraryArray);
         elementToToggleReadStatus.textContent = "I have NOT read this book yet.";
       }
 

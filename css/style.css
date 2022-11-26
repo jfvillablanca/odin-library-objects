@@ -76,12 +76,24 @@ body {
   font-size: 1.3rem;
 }
 
+.book > div {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5rem;
+}
+
+.book > div > p {
+  margin-bottom: 0;
+}
+
 /* The switch - the box around the slider */
 .switch {
+  --size-scaler: 0.6;
   position: relative;
   display: inline-block;
-  width: 6rem;
-  height: 3.3rem;
+  width: calc(6rem * var(--size-scaler));
+  height: calc(3.3rem * var(--size-scaler));
 }
 
 /* Hide default HTML checkbox */
@@ -107,10 +119,10 @@ body {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: calc(26px * var(--size-scaler));
+  width: calc(26px * var(--size-scaler));
+  left: calc(4px * var(--size-scaler));
+  bottom: calc(4px * var(--size-scaler));
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
@@ -125,10 +137,11 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  -webkit-transform: translateX(calc(26px * var(--size-scaler)));
+  -ms-transform: translateX(calc(26px * var(--size-scaler)));
+  transform: translateX(calc(26px * var(--size-scaler)));
 }
+
 .add-book-popup {
   visibility: hidden;
   background-color: white;
