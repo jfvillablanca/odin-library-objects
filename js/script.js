@@ -74,7 +74,8 @@ class Book {
 
   static deleteBookFromLibrary(libraryArray, libraryDOM, libraryIndex) {
     libraryArray.splice(libraryIndex, 1);
-    // HACK: This is not scalable. This deletes the whole DOM inside the '.book-list' div and re-renders it
+    // HACK: This is OBVIOUSLY not scalable. This deletes the whole DOM 
+    // inside the '.book-list' div and re-renders it since this ain't some async implementation
     refreshDOMBookList(libraryArray, libraryDOM);
     addEventListenersToRemoveBookButtons(libraryArray, libraryDOM);
     addEventListenersToToggleSwitchHaveRead(libraryArray);
@@ -92,7 +93,9 @@ const bookList = document.querySelector(".book-list");
 const addABookButton = document.querySelector(".add-button > button");
 const addBookPopupWindow = document.querySelector(".add-book-popup");
 
-// NOTE: Event Listeners are removed when the DOM is refreshed thus the need to reassign eventListeners to the nodes again (that's why I am using 'let' instead of 'const' here)
+// NOTE: Event Listeners are removed when the DOM is refreshed thus the need 
+// to reassign eventListeners to the nodes again 
+// (that's why I am using 'let' instead of 'const' here)
 let toggleSwitchHaveRead = document.querySelectorAll(".switch > input");
 let buttonsRemoveBook = document.querySelectorAll(".book > button");
 
@@ -115,8 +118,8 @@ const addEventListenerToAddBookButton = function(libraryArray, libraryDOM) {
 
 // Insert new Book to library and DOM
 const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
-  // BUG: There are no eventListeners to the form input, so input changes after clicking
-  // 'add new book entry' won't be recorded.
+  // BUG: Popup form fields insert multiple cards equal to number of times Add A Book
+  // has been pressed. Possible mishandling of data being pushed to the array.
   // HACK: Close the window and clear input fields after form submission
   const addNewBookEntry = document.querySelector(".add-book-popup button")
   const newBookTitle = document.getElementById("book-title");
