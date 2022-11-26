@@ -17,7 +17,7 @@ class Book {
     bookTitleH1.classList.add("book-title");
     bookTitleH1.textContent = title;
 
-    const bookAttrib = document.createElement("ul");
+    const bookAttribList = document.createElement("ul");
 
     const bookAuthor = document.createElement("li");
     bookAuthor.classList.add("book-author");
@@ -29,20 +29,38 @@ class Book {
 
     const bookRead = document.createElement("li");
     bookRead.classList.add("book-have-read");
+    bookRead.setAttribute("data-index", libraryIndex);
     haveRead
       ? (bookRead.textContent = "I have read this book already.")
       : (bookRead.textContent = "I have NOT read this book yet.");
+
+    bookAttribList.appendChild(bookAuthor);
+    bookAttribList.appendChild(bookPublished);
+    bookAttribList.appendChild(bookRead);
+
+    const toggleHaveRead = document.createElement("label");
+    toggleHaveRead.classList.add("switch");
+
+    const toggleCheckbox = document.createElement("input");
+    toggleCheckbox.setAttribute("type", "checkbox")
+    toggleCheckbox.setAttribute("data-index", libraryIndex);
+    haveRead
+      ? (toggleCheckbox.checked = true)
+      : (toggleCheckbox.checked = false);
+
+    const toggleSlider = document.createElement("span");
+    toggleSlider.classList.add("slider");
+
+    toggleHaveRead.appendChild(toggleCheckbox);
+    toggleHaveRead.appendChild(toggleSlider);
 
     const removeBook = document.createElement("button");
     removeBook.textContent = "Remove Book";
     removeBook.setAttribute("data-index", libraryIndex);
 
-    bookAttrib.appendChild(bookAuthor);
-    bookAttrib.appendChild(bookPublished);
-    bookAttrib.appendChild(bookRead);
-
     book.appendChild(bookTitleH1);
-    book.appendChild(bookAttrib);
+    book.appendChild(bookAttribList);
+    book.appendChild(toggleHaveRead);
     book.appendChild(removeBook);
 
     return book;
@@ -51,7 +69,8 @@ class Book {
   static deleteBookFromLibrary(libraryArray, libraryDOM, libraryIndex) {
     libraryArray.splice(libraryIndex, 1);
     refreshDOMBookList(libraryArray, libraryDOM);
-    addEventListenersToRemoveBookButtons();
+    addEventListenersToRemoveBookButtons(libraryArray, libraryDOM);
+    addEventListenersToToggleSwitchHaveRead(libraryArray);
     return;
   }
 }
@@ -65,6 +84,10 @@ myLibrary.push(new Book("Das Kapital, Volume I", "Karl Marx", "1867", false));
 const bookList = document.querySelector(".book-list");
 const addABookButton = document.querySelector(".add-button > button");
 const addBookPopupWindow = document.querySelector(".add-book-popup");
+
+// Event Listeners are removed when the DOM is refreshed thus the need to reassign
+// eventListeners to the nodes again (that's why I am using 'let' instead of 'const' here)
+let toggleSwitchHaveRead = document.querySelectorAll(".switch > input");
 let buttonsRemoveBook = document.querySelectorAll(".book > button");
 
 // Add a new Book
@@ -97,7 +120,7 @@ const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
     
     libraryArray.push(new Book(newBookTitle, newBookAuthor, newBookPublished, newBookHaveRead));
     refreshDOMBookList(libraryArray, libraryDOM)
-    addEventListenersToRemoveBookButtons();
+    addEventListenersToRemoveBookButtons(libraryArray, libraryDOM);
   })
 } 
 
@@ -123,7 +146,7 @@ function removeAllChildNodes(parentNode) {
   }
 }
 
-const addEventListenersToRemoveBookButtons = function() {
+const addEventListenersToRemoveBookButtons = function(libraryArray, libraryDOM) {
   buttonsRemoveBook = document.querySelectorAll(".book > button");
  
   // Remove book from library (array and DOM)
@@ -133,13 +156,42 @@ const addEventListenersToRemoveBookButtons = function() {
       e.preventDefault();
       const dataIndex = +e.target.attributes[0].value; 
 
-      const bookToBeRemovedFromDOM = document.querySelector(`[data-index="${dataIndex}"]`);
-      bookList.removeChild(bookToBeRemovedFromDOM);                   // Removes book card from DOM
-      Book.deleteBookFromLibrary(myLibrary, bookList, dataIndex);     // Removes book object from Array
+      const bookToBeRemovedFromDOM = document.querySelector(`.book[data-index="${dataIndex}"]`);
+      libraryDOM.removeChild(bookToBeRemovedFromDOM);                // Removes book card from DOM
+      Book.deleteBookFromLibrary(libraryArray, libraryDOM, dataIndex);  // Removes book object from Array
     })
   })
 };
 
-addEventListenersToAddBookButton();
+const addEventListenersToToggleSwitchHaveRead = function(libraryArray) {
+  toggleSwitchHaveRead = document.querySelectorAll(".switch > input");  
+
+  toggleSwitchHaveRead.forEach((toggleSwitch) => {
+    toggleSwitch.setAttribute("data-listener", true);
+    toggleSwitch.addEventListener(("click"), (e) => {
+      // const bookToToggleReadStatus = e.target.parentNode.parentNode;
+      // console.log(bookToToggleReadStatus.childNodes);
+      const dataIndex = +e.target.attributes["data-index"].value; 
+      const toggleStatus = e.target.checked;
+      const elementToToggleReadStatus = document.querySelector(
+        `.book-have-read[data-index="${dataIndex}"]`
+      );
+      if (toggleStatus) {
+        libraryArray[dataIndex].haveRead = true;
+        console.log(libraryArray);
+        elementToToggleReadStatus.textContent = "I have read this book already.";
+      }
+      else {
+        libraryArray[dataIndex].haveRead = false;
+        console.log(libraryArray);
+        elementToToggleReadStatus.textContent = "I have NOT read this book yet.";
+      }
+
+    })
+  })
+}
+
+addEventListenerToAddBookButton(myLibrary, bookList);
 refreshDOMBookList(myLibrary, bookList);
-addEventListenersToRemoveBookButtons();
+addEventListenersToRemoveBookButtons(myLibrary, bookList);
+addEventListenersToToggleSwitchHaveRead(myLibrary);
