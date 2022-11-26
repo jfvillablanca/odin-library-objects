@@ -120,13 +120,17 @@ const addEventListenerToAddBookButton = function(libraryArray, libraryDOM) {
 const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
   // BUG: Popup form fields insert multiple cards equal to number of times Add A Book
   // has been pressed. Possible mishandling of data being pushed to the array.
+  // Suspicion: Event Listener is attached every time THIS^ function is invoked and 
+  // logs N times if the popup window is closed
   // HACK: Close the window and clear input fields after form submission
+  // NOTE: Add form validation before closing window, 3 of the input fields are REQUIRED.
   const addNewBookEntry = document.querySelector(".add-book-popup button")
   const newBookTitle = document.getElementById("book-title");
   const newBookAuthor = document.getElementById("book-author");
   const newBookPublished = document.getElementById("book-published");
   const toggleSwitchNewBookHaveRead = document.getElementById("book-have-read");
   let newBookHaveRead = toggleSwitchNewBookHaveRead.checked;
+
   toggleSwitchNewBookHaveRead.addEventListener("click", () => {
     newBookHaveRead = toggleSwitchNewBookHaveRead.checked;
   })
