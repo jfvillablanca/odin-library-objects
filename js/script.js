@@ -115,22 +115,40 @@ const addEventListenerToAddBookButton = function(libraryArray, libraryDOM) {
 
 // Insert new Book to library and DOM
 const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
+  // BUG: There are no eventListeners to the form input, so input changes after clicking
+  // 'add new book entry' won't be recorded.
+  // HACK: Close the window and clear input fields after form submission
   const addNewBookEntry = document.querySelector(".add-book-popup button")
-  const newBookTitle = document.getElementById("book-title").value;
-  const newBookAuthor = document.getElementById("book-author").value;
-  const newBookPublished = document.getElementById("book-published").value;
+  const newBookTitle = document.getElementById("book-title");
+  const newBookAuthor = document.getElementById("book-author");
+  const newBookPublished = document.getElementById("book-published");
   const toggleSwitchNewBookHaveRead = document.getElementById("book-have-read");
   let newBookHaveRead = toggleSwitchNewBookHaveRead.checked;
   toggleSwitchNewBookHaveRead.addEventListener("click", () => {
     newBookHaveRead = toggleSwitchNewBookHaveRead.checked;
   })
 
+  // This listener will close the pop up window and submit.
   addNewBookEntry.addEventListener("click", (e) => {
     e.preventDefault();
     
-    libraryArray.push(new Book(newBookTitle, newBookAuthor, newBookPublished, newBookHaveRead));
+    libraryArray.push(new Book(
+      newBookTitle.value, 
+      newBookAuthor.value, 
+      newBookPublished.value, 
+      newBookHaveRead));
     refreshDOMBookList(libraryArray, libraryDOM)
     addEventListenersToRemoveBookButtons(libraryArray, libraryDOM);
+
+    addABookButton.classList.remove("popup-active");
+    addABookButton.textContent = "Add a book";
+
+    addBookPopupWindow.classList.remove("visible");
+    document.getElementById("add-book-popup-form").reset();
+    // newBookTitle.reset();
+    // newBookAuthor.reset();
+    // newBookPublished.reset();
+    // toggleSwitchNewBookHaveRead.reset();
   })
 } 
 
