@@ -1,3 +1,6 @@
+//TODO: View book card on click of .book container
+(function(){
+
 const myLibrary = [];
 
 class Book {
@@ -231,3 +234,4 @@ addEventListenerToAddBookButton(myLibrary, bookList);
 refreshDOMBookList(myLibrary, bookList);
 addEventListenersToRemoveBookButtons(myLibrary, bookList);
 addEventListenersToToggleSwitchHaveRead(myLibrary);
+})();
