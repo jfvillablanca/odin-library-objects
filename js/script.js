@@ -121,12 +121,7 @@ const addEventListenerToAddBookButton = function(libraryArray, libraryDOM) {
 
 // Insert new Book to library and DOM
 const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
-  // BUG: Popup form fields insert multiple cards equal to number of times Add A Book
-  // has been pressed. Possible mishandling of data being pushed to the array.
-  // Suspicion: Event Listener is attached every time THIS^ function is invoked and 
-  // logs N times if the popup window is closed
-  // HACK: Close the window and clear input fields after form submission
-  // NOTE: Add form validation before closing window, 3 of the input fields are REQUIRED.
+  // BUG: Add form validation before closing window, 3 of the input fields are REQUIRED.
   const addNewBookEntry = document.querySelector(".add-book-popup button")
   const newBookTitle = document.getElementById("book-title");
   const newBookAuthor = document.getElementById("book-author");
@@ -137,6 +132,8 @@ const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
   toggleSwitchNewBookHaveRead.addEventListener("click", () => {
     newBookHaveRead = toggleSwitchNewBookHaveRead.checked;
   })
+
+ // addNewBookEntry.disabled = true; 
 
   // This listener will close the pop up window and submit.
   function closePopUp(e) {
@@ -149,7 +146,8 @@ const insertNewBookToArrayAndDOM = function(libraryArray, libraryDOM) {
       newBookTitle.value, 
       newBookAuthor.value, 
       newBookPublished.value, 
-      newBookHaveRead));
+      newBookHaveRead)
+    );
     refreshDOMBookList(libraryArray, libraryDOM)
     addEventListenersToRemoveBookButtons(libraryArray, libraryDOM);
 
@@ -207,6 +205,7 @@ const addEventListenersToRemoveBookButtons = function(libraryArray, libraryDOM) 
 };
 
 const addEventListenersToToggleSwitchHaveRead = function(libraryArray) {
+  // BUG: toggle switch also needs to refresh library or target element and set have Read Status
   toggleSwitchHaveRead = document.querySelectorAll(".switch > input");  
 
   toggleSwitchHaveRead.forEach((toggleSwitch) => {
